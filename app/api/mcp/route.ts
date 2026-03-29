@@ -1,14 +1,26 @@
 /**
- * MCP Streamable HTTP 接口 (GET)
+ * MCP SSE 接口 — 兼容旧版 HTTP+SSE 协议
  *
- * 外部 Agent 通过 GET 建立事件流连接，
- * 接收服务端推送的 SSE 事件。
+ * 单个端点同时处理：
+ * - GET：建立 SSE 事件流
+ * - POST：接收和处理 JSON-RPC 消息
+ *
+ * 符合 MCP 2024-11 规范，兼容 ModelScope 等客户端。
  */
 
-import { transport } from "@/lib/mcp/transport";
+import {
+  handleSseGet,
+  handleSsePost,
+} from "@/lib/mcp/transport";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(request: Request) {
-  return transport.handleRequest(request);
+// GET：建立 SSE 流
+export async function GET() {
+  return handleSseGet();
+}
+
+// POST：处理消息
+export async function POST(request: Request) {
+  return handleSsePost(request);
 }
