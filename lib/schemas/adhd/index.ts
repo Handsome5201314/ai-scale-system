@@ -1,2 +1,5 @@
-// 预留：多动症类量表
-export {};
+/**
+ * ADHD（注意缺陷多动障碍）量表模块导出
+ */
+
+export { SNAP_Scale } from "./snap-iv";
